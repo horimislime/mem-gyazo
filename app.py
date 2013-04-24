@@ -7,10 +7,15 @@ import hashlib
 
 app = Flask(__name__)
 
+
 class RegexConverter(BaseConverter):
     def __init__(self, url_map, *items):
         super(RegexConverter, self).__init__(url_map)
         self.regex = items[0]
+
+
+app.url_map.converters['regex'] = RegexConverter
+
 
 class Image(object):
     def __init__(self, raw_data, mime_type):
@@ -22,6 +27,7 @@ class Image(object):
 
     def mime_type(self):
         return self.mime_type
+
 
 @app.route('/<regex("[a-z0-9]+"):key>.png')
 def get_image(key):
@@ -35,6 +41,7 @@ def get_image(key):
 
     return response
 
+
 @app.route('/upload', methods=['POST'])
 def post():
     uploaded_image = request.files['imagedata']
@@ -46,11 +53,8 @@ def post():
 
     client.set(key, image)
 
-    return 'http://%s/%s.png' % ('localhost:5000', key)
+    return 'http://%s/%s.png' % (request.host, key)
 
-if __name__ == '__name__':
-    client = memcache.Client(['127.0.0.1:11211'])
-
-    app.url_map.converters['regex'] = RegexConverter
-    app.debug = True
-    app.run()
+client = memcache.Client(['127.0.0.1:11211'])
+app.debug = True
+app.run()
