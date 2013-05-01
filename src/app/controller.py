@@ -5,6 +5,7 @@ from werkzeug.routing import BaseConverter
 import memcache
 import hashlib
 
+client = memcache.Client(['127.0.0.1:11211'])
 app = Flask(__name__)
 
 
@@ -55,6 +56,7 @@ def post():
 
     return 'http://%s/%s.png' % (request.host, key)
 
-client = memcache.Client(['127.0.0.1:11211'])
-app.debug = True
-app.run()
+
+def make_app():
+    app.debug=False
+    return app
