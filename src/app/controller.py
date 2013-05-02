@@ -57,6 +57,6 @@ def post():
     return 'http://%s/%s.png' % (request.host, key)
 
 
-def make_app():
-    app.debug=False
+def make_app(global_conf={}):
+    app.debug = False
     return app
