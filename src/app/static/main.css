@@ -1,0 +1,14 @@
+#upload-zone {
+    margin:40px;
+    box-shadow:0 0 50px rgba(0,0,0,0.13)
+}
+
+#message {
+    position:abslolute;
+    top:0;
+    left:0;
+    bottom:0;
+    right:0;
+    text-align:center;
+    font-size:20px;
+}

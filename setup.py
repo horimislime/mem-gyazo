@@ -28,6 +28,7 @@ setup(
     install_requires=[
         'setuptools',
         'Flask',
+        'python-memcached'
         ],
     entry_points="""
     [paste.app_factory]

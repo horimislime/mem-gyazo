@@ -1,6 +1,6 @@
 __author__ = 'horimislime'
 
-from flask import Flask, request, make_response, abort
+from flask import (Flask, request, render_template, redirect, url_for, make_response, abort)
 from werkzeug.routing import BaseConverter
 import memcache
 import hashlib
@@ -42,6 +42,10 @@ def get_image(key):
 
     return response
 
+@app.route('/drop', methods=['GET'])
+def drop():
+    return render_template('index.html')
+
 
 @app.route('/upload', methods=['POST'])
 def post():
@@ -51,12 +55,15 @@ def post():
     md5 = hashlib.md5()
     md5.update(str(image.raw_data))
     key = md5.hexdigest()
-
     client.set(key, image)
-
+    
     return 'http://%s/%s.png' % (request.host, key)
 
 
 def make_app(global_conf={}):
     app.debug = False
     return app
+
+if __name__ == '__main__':
+    app.debug=True
+    app.run()
